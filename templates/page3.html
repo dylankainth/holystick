@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .card-title {
+        font-size: 2rem;
+    }
+</style>
+<div class="container my-5">
+    <div class="my-5">
+        <div class="p-5 text-center bg-body-tertiary rounded-3">
+            <h1 class="display-3">Input Data</h1>
+            <p class="lead">
+                Enter the data you want to predict
+            </p>
+        </div>
+    </div>
+
+    <div class="my-5">
+        <div class="p-5 text-center bg-body-tertiary rounded-3">
+            <li class="list-group-item d-flex justify-content-between">
+                <span><b>Name</b></span>
+                <span><b>{{ model['name']|e }}</b></span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Environmental Impact</span>
+                <span>{{ model['environmental-impact']|e }}</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Accuracy</span>
+                <span>{{ model['accuracy']|e }}</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Interpretability</span>
+                <span>{{ model['interpretability']|e }}</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Complexity</span>
+                <span>{{ model['complexity']|e }}</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Cost</span>
+                <span>{{ model['cost']|e }}</span>
+            </li>
+        </div>
+    </div>
+
+    <div class="my-5">
+        <div class="p-5 bg-body-tertiary rounded-3">
+
+            <table class="table">
+                <thead contenteditable="true">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody contenteditable="true">
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td colspan="2">Larry the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+
+</div>
+
+{% endblock %}

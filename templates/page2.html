@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .card-title {
+        font-size: 2rem;
+    }
+</style>
+<div class="container my-5">
+    <div class="my-5">
+        <div class="p-5 text-center bg-body-tertiary rounded-3">
+            <h1 class="display-3">Model Picker</h1>
+            <p class="lead">
+                Select the right model for your data
+            </p>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        {% for model in models %}
+
+        <div class="col mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ model.name|e }}</h5>
+                    <p class="card-text">{{ model.description|e }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Environmental Impact</span>
+                        <span>{{ model['environmental-impact']|e }}</span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Accuracy</span>
+                        <span>{{ model['accuracy']|e }}</span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Interpretability</span>
+                        <span>{{ model['interpretability']|e }}</span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Complexity</span>
+                        <span>{{ model['complexity']|e }}</span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Cost</span>
+                        <span>{{ model['cost']|e }}</span>
+                    </li>
+
+
+
+
+                </ul>
+                <div class="card-body">
+                    <a class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button"
+                        href="/3?modelNo={{ model['modelNo']|e }}">
+                        Use
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                        </svg>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+</div>
+
+{% endblock %}
