@@ -96,6 +96,83 @@ def runModel():
         return {
             'result': tableData
         }
+    
+    if request.json['modelNo'] == '1':
+
+        tableData = (request.json['tableData'])
+
+        # for each row in the tableData, run on runModel4, and add the result in the 'results' key of the row
+        for row in tableData:
+            row['result'] = runModel1(row)
+
+        return {
+            'result': tableData
+        }
+
+
+def runModel1(data):
+    import pickle
+    import pandas as pd
+
+    """
+    Loads the saved model and preprocessing components, processes the input data, and predicts the target.
+
+    Parameters:
+    data (dict): Dictionary containing the input data (e.g., new customer data).
+
+    Returns:
+    float: The predicted value for y (continuous).
+    """
+    # Load the model and preprocessing components from the pickle file
+    with open('models/linear-regression/linear_regression.pkl', 'rb') as f:
+        components = pickle.load(f)
+
+    model = components['model']
+    scaler = components['scaler']
+    label_encoder = components['label_encoder']
+
+    # Convert the input data to a DataFrame
+    df = pd.DataFrame([data])
+
+    # Handle unseen categories for categorical columns (e.g., 'job', 'education', 'contact', etc.)
+    def safe_transform(col, encoder):
+        """Safely transform a column value, handling unseen categories"""
+        if col in encoder.classes_:
+            return encoder.transform([col])[0]
+        else:
+            # Handle unseen label (you can choose another strategy like assigning a default value)
+            return -1
+
+    # Preprocess the data like we did for the training dataset
+    df['job_numeric'] = df['job'].apply(
+        lambda x: safe_transform(x, label_encoder))
+    df['education_numeric'] = df['education'].apply(
+        lambda x: safe_transform(x, label_encoder))
+    df['month_numeric'] = df['month'].apply(
+        lambda x: safe_transform(x, label_encoder))
+    df['contact_numeric'] = df['contact'].apply(
+        lambda x: safe_transform(x, label_encoder))
+    df['poutcome_numeric'] = df['poutcome'].apply(
+        lambda x: safe_transform(x, label_encoder))
+    df['marital_numeric'] = df['marital'].apply(
+        lambda x: safe_transform(x, label_encoder))
+
+    # Handle 'yes'/'no' columns: 'default', 'housing', 'loan' (encode them as 1/0)
+    df['default'] = df['default'].map({'yes': 1, 'no': 0})
+    df['housing'] = df['housing'].map({'yes': 1, 'no': 0})
+    df['loan'] = df['loan'].map({'yes': 1, 'no': 0})
+
+    # Select the same features as in the training set (8 features in total)
+    df_selected = df[['age', 'job_numeric', 'marital_numeric',
+                      'education_numeric', 'default', 'balance', 'housing', 'month_numeric']]
+
+    # Scale the features using the previously trained scaler
+    df_scaled = scaler.transform(df_selected)
+
+    # Make the prediction using the trained model
+    prediction = model.predict(df_scaled)
+
+    return 'No' if prediction[0] < 0.5 else 'Yes'
 
 
 def runModel4(data):
