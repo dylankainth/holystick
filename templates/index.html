@@ -39,29 +39,36 @@
 
     <div class="p-5 text-center bg-body-tertiary rounded-3 my-5">
 
-        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="#003546" class="bi bi-magic me-2"
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="#003546" class="bi bi-clipboard2-data"
             viewBox="0 0 16 16">
             <path
-                d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707zM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1zM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707zM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0z" />
+                d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5z" />
+            <path
+                d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5z" />
+            <path
+                d="M10 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm4-3a1 1 0 0 0-1 1v3a1 1 0 1 0 2 0V9a1 1 0 0 0-1-1" />
         </svg>
 
         <h1 class="text-body-emphasis">Understanding the data</h1>
         <p class="col-lg-8 mx-auto fs-5 text-muted">
-            Predict whether a user will subscribe to a term deposit or not. <br>
-            Use multiple AI models to predict the outcome, and compare the associated cost of each.
-        </p>
-        <div class="d-inline-flex gap-2 mb-5">
-            <a class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button"
-                href="/2">
-                Let's get started
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-arrow-right-short" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
-                </svg>
-            </a>
+            Understanding bias in the dataset from which the model is trained is crucial to understanding the model's
+            predictions. <br> <br>
 
+            The bank marketing dataset used derived from UC Irvine Machine Learning Repository which was donated on
+            2/13/2012. <br> <br>
+
+            The data is related with direct marketing campaigns (phone calls) of a Portuguese banking institution where
+            each row represents one contact with a potential client, with several features related to the client’s
+            profile, the contact campaign, and the economic context. <br> <br>
+
+        <div class="container">
+            {% for i in range(1,8) %}
+            <img class="py-3 mx-5" width="400px" src="/static/holystickpic{{ i }}.jpg" />
+            {% endfor %}
         </div>
+        </p>
+
     </div>
 
 
