@@ -7,7 +7,10 @@
         font-size: 2rem;
     }
 </style>
-<div class="container my-5">
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<div class="container my-5" id="app">
     <div class="my-5">
         <div class="p-5 text-center bg-body-tertiary rounded-3">
             <h1 class="display-3">Input Data</h1>
@@ -55,34 +58,72 @@
         <div class="p-5 bg-body-tertiary rounded-3">
 
             <table class="table">
-                <thead contenteditable="true">
+                <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">age</th>
+                        <th scope="col">job</th>
+                        <th scope="col">marital</th>
+                        <th scope="col">education</th>
+                        <th scope="col">default</th>
+                        <th scope="col">balance</th>
+                        <th scope="col">housing</th>
+                        <th scope="col">loan</th>
+                        <th scope="col">contact</th>
+                        <th scope="col">day</th>
+                        <th scope="col">month</th>
+                        <th scope="col">duration</th>
+                        <th scope="col">campaign</th>
+                        <th scope="col">pdays</th>
+                        <th scope="col">previous</th>
+                        <th scope="col">poutcome</th>
                     </tr>
                 </thead>
                 <tbody contenteditable="true">
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
+                        <td>58</td>
+                        <td>management</td>
+                        <td>married</td>
+                        <td>tertiary</td>
+                        <td>no</td>
+                        <td>2143</td>
+                        <td>yes</td>
+                        <td>no</td>
+                        <td>unknown</td>
+                        <td>5</td>
+                        <td>may</td>
+                        <td>261</td>
+                        <td>1</td>
+                        <td>-1</td>
+                        <td>0</td>
+                        <td>unknown</td>
                     </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+
                 </tbody>
             </table>
+
+            <!-- make a plus button -->
+
+            <li class="list-group-item d-flex justify-content-between">
+
+                <span> <button class="btn btn-secondary" @click="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                        </svg>
+                    </button></span>
+
+                <span>
+                    <span> <button class="btn btn-primary" @click="addRow">
+
+
+                            Submit
+                        </button></span>
+                </span>
+            </li>
+
+
 
         </div>
     </div>
@@ -90,5 +131,39 @@
 
 
 </div>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: 'Hello Vue!'
+            }
+        },
+        methods: {
+            submit() {
+
+            },
+            addRow() {
+
+                const tableBody = document.querySelector(".table tbody");
+                const newRow = document.createElement("tr");
+
+                // Create 16 editable cells
+                for (let i = 0; i < 16; i++) {
+                    const cell = document.createElement("td");
+                    cell.innerHTML = '&nbsp;';
+                    newRow.appendChild(cell);
+
+                }
+
+                tableBody.appendChild(newRow);
+
+            }
+        }
+    })
+
+    app.config.compilerOptions.delimiters = ['[[', ']]'];
+    app.mount('#app')
+</script>
 
 {% endblock %}
