@@ -8,6 +8,8 @@ EXPOSE 5000
 ENV FLASK_APP=app.py
 
 COPY . /app
+
+RUN ls
 RUN pip install -r requirements.txt
 
 ENTRYPOINT [ "flask"]
