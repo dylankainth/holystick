@@ -1,6 +1,6 @@
 # Example of Dockerfile
 
-FROM python:3.12.4-alpine
+FROM python:3.12.4-bullseye
 
 WORKDIR /app
 
