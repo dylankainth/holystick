@@ -69,6 +69,8 @@ def page3():
 @app.route('/runModel', methods=['POST'])
 def runModel():
 
+    print("model")
+
     # print the request data body
     if request.json['modelNo'] == '4':
 
@@ -77,6 +79,19 @@ def runModel():
         # for each row in the tableData, run on runModel4, and add the result in the 'results' key of the row
         for row in tableData:
             row['result'] = runModel4(row)
+
+        return {
+            'result': tableData
+        }
+
+     # print the request data body
+    if request.json['modelNo'] == '3':
+
+        tableData = (request.json['tableData'])
+
+        # for each row in the tableData, run on runModel4, and add the result in the 'results' key of the row
+        for row in tableData:
+            row['result'] = runModel3(row)
 
         return {
             'result': tableData
@@ -117,6 +132,72 @@ def runModel4(data):
         return 'Yes'
     else:
         return 'No'
+
+
+def runModel3(data):
+
+    import pickle
+    import pandas as pd
+
+    """
+    Loads the saved model and preprocessing components, processes the input data, and predicts the target.
+
+    Parameters:
+    data (dict): Dictionary containing the input data (e.g., new customer data).
+
+    Returns:
+    str: The predicted 'y' value ('yes' or 'no').
+    """
+    # Load the model and preprocessing components from the pickle file
+    with open('models/logistic-regression/logistic_regression.pkl', 'rb') as f:
+        components = pickle.load(f)
+
+    model = components['model']
+    scaler = components['scaler']
+    label_encoder = components['label_encoder']
+
+    # Convert the input data to a DataFrame
+    df = pd.DataFrame([data])
+
+    # Handle unseen categories for categorical columns (e.g., 'job', 'education', 'contact', etc.)
+    def safe_transform(col, encoder):
+        """Safely transform a column value, handling unseen categories"""
+        if col in encoder.classes_:
+            return encoder.transform([col])[0]
+        else:
+            # Handle unseen label (you can choose another strategy like assigning a default value)
+            return -1
+
+    # Preprocess the data like we did for the training dataset
+    df['job_numeric'] = df['job'].apply(
+        lambda x: safe_transform(x, label_encoder))
+    df['education_numeric'] = df['education'].apply(
+        lambda x: safe_transform(x, label_encoder))
+    df['month_numeric'] = df['month'].apply(
+        lambda x: safe_transform(x, label_encoder))
+    df['contact_numeric'] = df['contact'].apply(
+        lambda x: safe_transform(x, label_encoder))
+    df['poutcome_numeric'] = df['poutcome'].apply(
+        lambda x: safe_transform(x, label_encoder))
+
+    # Handle 'yes'/'no' columns: 'default', 'housing', 'loan' (encode them as 1/0)
+    df['default'] = df['default'].map({'yes': 1, 'no': 0})
+    df['housing'] = df['housing'].map({'yes': 1, 'no': 0})
+    df['loan'] = df['loan'].map({'yes': 1, 'no': 0})
+
+    # Drop original categorical columns (same as during training)
+    df = df.drop(columns=['age', 'job', 'marital',
+                 'education', 'month', 'contact', 'poutcome'])
+
+    # Scale the features using the previously trained scaler
+    df_scaled = scaler.transform(df)
+
+    # Make the prediction using the trained model
+    prediction = model.predict(df_scaled)
+
+    # Convert prediction (1 or 0) back to 'yes' or 'no'
+    return 'Yes' if prediction[0] == 1 else 'No'
+
 
 # @app.route('/runModel2')
 # def runModel2():
