@@ -57,7 +57,7 @@
     <div class="my-5">
         <div class="p-5 bg-body-tertiary rounded-3">
 
-            <table class="table">
+            <table class="table inputTable">
                 <thead>
                     <tr>
                         <th scope="col">age</th>
@@ -126,6 +126,67 @@
         </div>
     </div>
 
+    <div class="my-5" v-if="status!=0">
+        <div class="p-5 text-center bg-body-tertiary rounded-3">
+            <div v-if="status==1">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+            <div v-if="status==2">
+
+                <table class="table inputTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">age</th>
+                            <th scope="col">job</th>
+                            <th scope="col">marital</th>
+                            <th scope="col">education</th>
+                            <th scope="col">default</th>
+                            <th scope="col">balance</th>
+                            <th scope="col">housing</th>
+                            <th scope="col">loan</th>
+                            <th scope="col">contact</th>
+                            <th scope="col">day</th>
+                            <th scope="col">month</th>
+                            <th scope="col">duration</th>
+                            <th scope="col">campaign</th>
+                            <th scope="col">pdays</th>
+                            <th scope="col">previous</th>
+                            <th scope="col">poutcome</th>
+                            <th scope="col"><b>Result</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="row in response.result">
+                            {{ row}}
+                            <td>[[ row.age ]]</td>
+                            <td>[[ row['job'] ]]</td>
+                            <td>[[ row['marital'] ]]</td>
+                            <td>[[ row['education'] ]]</td>
+                            <td>[[ row['default'] ]]</td>
+                            <td>[[ row['balance'] ]]</td>
+                            <td>[[ row['housing'] ]]</td>
+                            <td>[[ row['loan'] ]]</td>
+                            <td>[[ row['contact'] ]]</td>
+                            <td>[[ row['day'] ]]</td>
+                            <td>[[ row['month'] ]]</td>
+                            <td>[[ row['duration'] ]]</td>
+                            <td>[[ row['campaign'] ]]</td>
+                            <td>[[ row['pdays'] ]]</td>
+                            <td>[[ row['previous'] ]]</td>
+                            <td>[[ row['poutcome'] ]]</td>
+                            <td>[[ row['result'] ]]</td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
 
 
 </div>
@@ -134,16 +195,82 @@
     const app = Vue.createApp({
         data() {
             return {
-                message: 'Hello Vue!'
+                status: 0,
+                response: ''
             }
         },
         methods: {
-            submit() {
+
+            async submit() {
+
+                this.status = 1;
+
+                // get the data from the table
+                const table = document.querySelector(".inputTable");
+                const data = [];
+
+                for (let i = 1; i < table.rows.length; i++) {
+                    const row = table.rows[i];
+                    const rowData = [];
+
+                    for (let j = 0; j < row.cells.length; j++) {
+                        rowData.push(row.cells[j].innerText);
+                    }
+
+                    data.push(rowData);
+                }
+
+                // convert the data to json
+                var jsonData = data.map(row => {
+                    return {
+                        'age': row[0],
+                        'job': row[1],
+                        'marital': row[2],
+                        'education': row[3],
+                        'default': row[4],
+                        'balance': row[5],
+                        'housing': row[6],
+                        'loan': row[7],
+                        'contact': row[8],
+                        'day': row[9],
+                        'month': row[10],
+                        'duration': row[11],
+                        'campaign': row[12],
+                        'pdays': row[13],
+                        'previous': row[14],
+                        'poutcome': row[15]
+                    }
+                });
+
+
+                // clean spaces out of the data
+                const cleanData = jsonData.map(row => {
+                    const cleanRow = {};
+                    for (const key in row) {
+                        cleanRow[key] = row[key].trim();
+                    }
+                    return cleanRow;
+                });
+
+                response = await fetch('/runModel' + "?modelNo={{ model['modelNo']|e }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        tableData: cleanData,
+                        modelNo: "{{ model['modelNo']|e }}"
+                    })
+                });
+
+                // console.log the response
+                this.status = 2;
+                this.response = await response.json();
 
             },
             addRow() {
 
-                const tableBody = document.querySelector(".table tbody");
+                const tableBody = document.querySelector(".inputTable tbody");
                 const newRow = document.createElement("tr");
 
                 // Create 16 editable cells
