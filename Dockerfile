@@ -1,12 +1,14 @@
-# syntax=docker/dockerfile:1
+# Example of Dockerfile
 
-FROM python:3.8-slim-buster
+FROM python:3.8.5-alpine3.12
 
-WORKDIR /python-docker
+WORKDIR /app
 
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+EXPOSE 5000
+ENV FLASK_APP=app.py
 
-COPY . .
+COPY . /app
+RUN pip install -r requirements.txt
 
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+ENTRYPOINT [ "flask"]
+CMD [ "run", "--host", "0.0.0.0" ]
