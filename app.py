@@ -72,6 +72,19 @@ def runModel():
     print("model")
 
     # print the request data body
+    if request.json['modelNo'] == '2':
+
+        tableData = (request.json['tableData'])
+
+        # for each row in the tableData, run on runModel4, and add the result in the 'results' key of the row
+        for row in tableData:
+            row['result'] = runModel2(row)
+
+        return {
+            'result': tableData
+        }
+
+    # print the request data body
     if request.json['modelNo'] == '4':
 
         tableData = (request.json['tableData'])
@@ -96,7 +109,7 @@ def runModel():
         return {
             'result': tableData
         }
-    
+
     if request.json['modelNo'] == '1':
 
         tableData = (request.json['tableData'])
@@ -276,47 +289,37 @@ def runModel3(data):
     return 'Yes' if prediction[0] == 1 else 'No'
 
 
-# @app.route('/runModel2')
-# def runModel2():
-#     # Load the saved model and feature columns
-#     import pickle
-#     import pandas as pd
+@app.route('/runModel2')
+def runModel2(data):
+    import pickle
+    import pandas as pd
 
-#     model = pickle.load(
-#         open('models/binary-classification/binary_classification_model.pkl', 'rb'))
-#     feature_columns = pickle.load(
-#         open('models/binary-classification/model_columns.pkl', 'rb'))
+    model = pickle.load(
+        open('models/binary-classification/binary_classification_model.pkl', 'rb'))
+    feature_columns = pickle.load(
+        open('models/binary-classification/model_columns.pkl', 'rb'))
 
-#     # Example Input Data (Replace with actual input values)
-#     input_data = {
-#         'feature_0': 0.5,
-#         'feature_1': -1.2,
-#         'feature_2': 3.0,
-#         'feature_3': 2.1,
-#         'feature_4': -0.7,
-#         'feature_5': 0.0,
-#         'feature_6': 1.5,
-#         'feature_7': 0.3,
-#         'feature_8': -1.8,
-#         'feature_9': 0.9
-#     }
+    # Convert input data to a DataFrame
+    input_df = pd.DataFrame([data])
 
-#     # Convert input to a DataFrame
-#     input_df = pd.DataFrame([input_data])
+    # Apply one-hot encoding to match training columns
+    input_df = pd.get_dummies(input_df)
 
-#     # Add missing columns (those that were present during training but absent in input data)
-#     for col in feature_columns:
-#         if col not in input_df.columns:
-#             input_df[col] = 0
+    # Add missing columns from the training set
+    for col in feature_columns:
+        if col not in input_df.columns:
+            input_df[col] = 0
 
-#     # Reorder the columns to match the original training set
-#     input_df = input_df[feature_columns]
+    # Reorder the columns to match the training set
+    input_df = input_df[feature_columns]
 
-#     # Make a prediction
-#     prediction = model.predict(input_df)
+    # Make a prediction
+    prediction = model.predict(input_df)
+
+    # Convert the prediction to "Yes" or "No"
+    result = "Yes" if prediction[0] == 1 else "No"
+
+    return result
 
 
-#     # Convert the prediction to "Yes" or "No"
-#     result = "Yes" if prediction[0] == 1 else "No"
-#     return ("Prediction:", result)
 app.run(debug=True)
