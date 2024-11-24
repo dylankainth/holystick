@@ -12,8 +12,8 @@ models = [
     {
         'name': 'Linear Regression',
         'environmental-impact': 'Low',
-        'accuracy': 'High',
-        'interpretability': 'High',
+        'accuracy': 'Low',
+        'interpretability': 'Medium',
         'complexity': 'Low',
         'cost': 'Low',
         'description': 'Linear regression is a linear approach to modeling the relationship between a scalar response and one or more explanatory variables. The case of one explanatory variable is called simple linear regression.',
@@ -21,31 +21,31 @@ models = [
     },
     {
         'name': 'Hollistic Ai',
-        'environmental-impact': 'Low',
+        'environmental-impact': 'Medium',
         'accuracy': 'High',
-        'interpretability': 'High',
-        'complexity': 'Low',
-        'cost': 'Low',
+        'interpretability': 'Medium',
+        'complexity': 'Medium',
+        'cost': 'Medium',
         'description': 'Holistic AI is a form of AI that is designed to mimic the holistic thinking and problem-solving skills of humans. It is a type of AI that is designed to be able to think and reason in a way that is similar to the way that humans do.',
         'modelNo': 2
     },
     {
         'name': 'Logistic Regression',
         'environmental-impact': 'Low',
-        'accuracy': 'High',
+        'accuracy': 'Medium/High',
         'interpretability': 'High',
-        'complexity': 'Low',
-        'cost': 'Low',
+        'complexity': 'Medium',
+        'cost': 'Medium/Low',
         'description': 'Logistic regression is a statistical model that in its basic form uses a logistic function to model a binary dependent variable, although many more complex extensions exist. In regression analysis, logistic regression (or logit regression) is estimating the parameters of a logistic model (a form of binary regression).',
         'modelNo': 3
     },
     {
         'name': 'Random Forest',
-        'environmental-impact': 'Low',
-        'accuracy': 'High',
+        'environmental-impact': 'High',
+        'accuracy': 'Very High',
         'interpretability': 'High',
-        'complexity': 'Low',
-        'cost': 'Low',
+        'complexity': 'High',
+        'cost': 'High',
         'description': 'Random forests or random decision forests are an ensemble learning method for classification, regression and other tasks that operate by constructing a multitude of decision trees at training time and outputting the class that is the mode of the classes (classification) or mean/average prediction (regression) of the individual trees.',
         'modelNo': 4
     }
